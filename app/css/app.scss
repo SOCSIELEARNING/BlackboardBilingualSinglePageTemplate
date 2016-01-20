@@ -1,0 +1,11 @@
+$apppadding: 10px;
+$appbackground: #e4f2f5;
+$appborder: #cce6eb;
+
+.row{word-wrap: break-word}
+.blue {color:blue}
+.red {color:red}
+.custom-element {margin-top:$apppadding; margin-bottom:$apppadding}
+.supplementary-btn-group {float:right; margin-top:$apppadding}
+.supplementary{padding-top:$apppadding; padding-bottom:$apppadding; background-color:$appbackground; border-bottom:$appborder}
+.supplementary button {border-color:$appborder}

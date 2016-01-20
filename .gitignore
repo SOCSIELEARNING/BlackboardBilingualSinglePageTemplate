@@ -1,0 +1,6 @@
+# Exclude Grunt files
+gruntfile.js
+package.json
+Thumbs.db
+bower_components/
+node_modules/

@@ -1,0 +1,16 @@
+CACHE MANIFEST
+      
+#Cache - This is the default section for entries in a cache manifest file. Files listed under the CACHE: section header (or immediately after the CACHE MANIFEST line) are explicitly cached after they're downloaded for the first time.
+#NETWORK - Files listed under the NETWORK: section header in the cache manifest file are white-listed resources that require a connection to the server. All requests to such resources bypass the cache, even if the user is offline. Wildcards may be used. An asterisk can be used to indicate that all other resources/files require an internet connection.
+#FALLBACK - The FALLBACK: section specifies fallback pages the browser should use if a resource is inaccessible. Each entry in this section lists two URIs—the first is the resource, the second is the fallback. Both URIs must be relative and from the same origin as the manifest file. Wildcards may be used.
+CACHE:
+css/app.min.css
+js/app.js
+js/controller.js
+default.png
+
+FALLBACK:
+
+#Add which resources are only available online
+NETWORK:
+*

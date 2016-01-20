@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="webApp" manifest="offline.appcache">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--Optional if you want to appear as web application on device-->
+    <!--<meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">-->
+    <title>Topic / Pwnc</title>
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon-57-precomposed.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-touch-icon-72-precomposed.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-touch-icon-114-precomposed.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-touch-icon-144-precomposed.png">
+    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/app.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../bower_components/jasmine-core/lib/jasmine-core/jasmine.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <!--Optional startup image if set to appear as web application on device-->
+    <!--<link rel="apple-touch-startup-image" href="default.png">-->
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src= "../bower_components/jasmine-core/lib/jasmine-core/jasmine.js"></script>
+	<script src= "../bower_components/jasmine-core/lib/jasmine-core/jasmine-html.js"></script>
+	<script src= "../bower_components/jasmine-core/lib/jasmine-core/boot.js"></script>
+    <script src= "../bower_components/angular/angular.min.js"></script>
+    <script src= "tests/angular-mocks.js"></script>
+    <!--Optional if you want to check application cache manually-->
+    <!--<script src= "js/appcache.js"></script>-->
+  </head>
+  <body>
+  	<div ng-controller="appController" ng-init="init()">
+  		<nav class="navbar navbar-default hidden-sm hidden-xs">
+  			<div class="container-fluid">
+  			<!-- Brand and toggle get grouped for better mobile display -->
+    			<div class="navbar-header">
+      				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        				<span class="sr-only">Toggle navigation</span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+					</button>
+			      	<a class="navbar-brand" href="#" ng-bind="currTitle"></a>
+    			</div>
+   				<!-- Collect the nav links, forms, and other content for toggling -->
+    			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      				<ul class="nav navbar-nav">
+      					<li class="{{x.appclass}}" ng-repeat="x	in currNavigation">
+    						<a href="#" ng-click="togglePage($index)">{{x.apptitle}}</a>
+                        </li>
+      				</ul>
+      				<ul class="nav navbar-nav navbar-right">
+      					<li><a href="#" ng-click="openSelf()">{{langArray[currArray].openTitle}}</a></li>
+        				<li class="dropdown">
+          					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{currLang}}<span class="caret"></span></a>
+          					<ul class="dropdown-menu" role="menu">
+          						<li class="{{x.appclass}}" ng-repeat="x	in langArray" role="button">
+          							<a href="#" ng-click="toggleLanguage(x.id, $index)">{{x.id}}</a>
+          						</li>
+          					</ul>
+        				</li>
+      				</ul>
+    			</div><!-- /.navbar-collapse -->
+  			</div><!-- /.container-fluid -->
+	</nav>
+	<div class="container-fluid supplementary visible-sm-block visible-xs-block" role="navigation">
+		<div class="btn-group btn-group-justified" role="group">
+    		<div class="btn-group" role="group">
+    			<div class="dropdown">
+    				<button class="btn btn-default" data-toggle="dropdown" aria-expanded="false">
+   						{{currTitle}} <span class="caret"></span>
+  					</button>
+					<ul class="dropdown-menu" role="menu">  
+   						<li class="{{x.appclass}}" ng-repeat="x	in currNavigation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button">
+    						<a href="#" ng-click="togglePage($index)">{{x.apptitle}}</a>
+                    	</li>
+    				</ul>
+     			</div>
+			</div>   
+   			<div class="btn-group" role="group">
+   				<div class="dropdown">    
+            		<button class="btn btn-default" data-toggle="dropdown" aria-expanded="false">{{currLang}} <span class="caret"></span></button>
+          			<ul class="dropdown-menu" role="menu">
+          				<li class="{{x.appclass}}" ng-repeat="x in langArray" role="button">
+	          				<a href="#" ng-click="toggleLanguage(x.id, $index)">{{x.id}}</a>
+          				</li>
+          			</ul>
+    			</div>
+    		</div>
+    	</div>
+ 	</div>
+	<div class="container-fluid visible-xs visible-sm">
+ 		<div class="btn-group supplementary-btn-group" role="group">
+   			<button type="button" class="btn btn-default" ng-click="openSelf()" aria-label="{{langArray[currArray].openTitle}}"><span aria-hidden="true" ng-bind="langArray[currArray].openTitle"></span></button>
+   		</div>
+ 	</div>
+    <div class="container-fluid" role="main">
+  		<div class="row" ng-hide="currNavigation[0].hide">
+    		<div class="col-md-12" ng-hide="langArray[0].hide">
+		    	<h1 ng-bind="currNavigation[0].apptitle"></h1>
+      			<div class="panel panel-success">
+  					<div class="panel-heading">Topic</div>
+  					<div class="panel-body">
+    					<div class="custom-element">
+      						<button type="button" class="btn btn-default btn-success" aria-label="Left Align" ng-click="openURL('https://learningcentral.cf.ac.uk/bbcswebdav/xid-5765970_2')"><span aria-hidden="true" ng-bind="currNavigation[0].apptitle"></span></button>
+                    	</div>
+    				</div>
+    			</div>
+      			<div class="panel panel-info">
+  					<div class="panel-heading">References</div>
+  					<div class="panel-body">
+      					<h2>References</h2>
+      					<ul>
+        					<li>References</li>
+      					</ul>
+  					</div>
+    			</div>
+      		</div>
+    		<div class="col-md-12" ng-hide="langArray[1].hide">
+      			<h1 ng-bind="currNavigation[0].apptitle"></h1>
+      			<div class="panel panel-success">
+  					<div class="panel-heading">Pwnc</div>
+  					<div class="panel-body">
+    					<div class="custom-element">
+      						<button type="button" class="btn btn-default btn-success" aria-label="Left Align" ng-click="openURL('https://learningcentral.cf.ac.uk/bbcswebdav/xid-5765840_2')"><span aria-hidden="true" ng-bind="currNavigation[0].apptitle"></span>
+							</button>
+                        </div>
+    				</div>
+    			</div>
+    			<div class="panel panel-info">
+  					<div class="panel-heading">Cyfeiriadau</div>
+  					<div class="panel-body">
+      					<h2>Cyfeiriadau</h2>
+      					<ul>
+        					<li>Cyfeiriadau </li>
+      					</ul>
+  					</div>
+    			</div>
+			</div>
+  		</div>
+        <div class="row" ng-hide="currNavigation[1].hide">
+    		<div class="col-md-12" ng-hide="langArray[0].hide">
+		    	<h1 ng-bind="currNavigation[1].apptitle"></h1>
+      			<div class="panel panel-success">
+  					<div class="panel-heading">Topic</div>
+  					<div class="panel-body">
+    					<div class="custom-element">
+      						<button type="button" class="btn btn-default btn-success" aria-label="Left Align" ng-click="openURL('https://learningcentral.cf.ac.uk/bbcswebdav/xid-5765970_2')"><span aria-hidden="true" ng-bind="currNavigation[1].apptitle"></span></button>
+                    	</div>
+    				</div>
+    			</div>
+      			<div class="panel panel-info">
+  					<div class="panel-heading">References</div>
+  					<div class="panel-body">
+      					<h2>References</h2>
+      					<ul>
+        					<li>References</li>
+      					</ul>
+  					</div>
+    			</div>
+      		</div>
+    		<div class="col-md-12" ng-hide="langArray[1].hide">
+      			<h1 ng-bind="currNavigation[1].apptitle"></h1>
+      			<div class="panel panel-success">
+  					<div class="panel-heading">Pwnc</div>
+  					<div class="panel-body">
+    					<div class="custom-element">
+      						<button type="button" class="btn btn-default btn-success" aria-label="Left Align" ng-click="openURL('https://learningcentral.cf.ac.uk/bbcswebdav/xid-5765840_2')"><span aria-hidden="true" ng-bind="currNavigation[1].apptitle"></span>
+							</button>
+                        </div>
+    				</div>
+    			</div>
+    			<div class="panel panel-info">
+  					<div class="panel-heading">Cyfeiriadau</div>
+  					<div class="panel-body">
+      					<h2>Cyfeiriadau</h2>
+      					<ul>
+        					<li>Cyfeiriadau </li>
+      					</ul>
+  					</div>
+    			</div>
+			</div>
+  		</div>
+        <div class="row" ng-hide="currNavigation[2].hide">
+    		<div class="col-md-12" ng-hide="langArray[0].hide">
+		    	<h1 ng-bind="currNavigation[2].apptitle"></h1>
+      			<div class="panel panel-success">
+  					<div class="panel-heading">Topic</div>
+  					<div class="panel-body">
+    					<div class="custom-element">
+      						<button type="button" class="btn btn-default btn-success" aria-label="Left Align" ng-click="openURL('https://learningcentral.cf.ac.uk/bbcswebdav/xid-5765970_2')"><span aria-hidden="true" ng-bind="currNavigation[2].apptitle"></span></button>
+                    	</div>
+    				</div>
+    			</div>
+      			<div class="panel panel-info">
+  					<div class="panel-heading">References</div>
+  					<div class="panel-body">
+      					<h2>References</h2>
+      					<ul>
+        					<li>References</li>
+      					</ul>
+  					</div>
+    			</div>
+      		</div>
+    		<div class="col-md-12" ng-hide="langArray[1].hide">
+      			<h1 ng-bind="currNavigation[2].apptitle"></h1>
+      			<div class="panel panel-success">
+  					<div class="panel-heading">Pwnc</div>
+  					<div class="panel-body">
+    					<div class="custom-element">
+      						<button type="button" class="btn btn-default btn-success" aria-label="Left Align" ng-click="openURL('https://learningcentral.cf.ac.uk/bbcswebdav/xid-5765840_2')"><span aria-hidden="true" ng-bind="currNavigation[2].apptitle"></span>
+							</button>
+                        </div>
+    				</div>
+    			</div>
+    			<div class="panel panel-info">
+  					<div class="panel-heading">Cyfeiriadau</div>
+  					<div class="panel-body">
+      					<h2>Cyfeiriadau</h2>
+      					<ul>
+        					<li>Cyfeiriadau </li>
+      					</ul>
+  					</div>
+    			</div>
+			</div>
+  		</div>
+	  </div>
+	</div>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="tests/tests.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+  </body>
+</html>
